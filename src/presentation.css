@@ -1355,15 +1355,21 @@ select {
 }
 
 .toc-number {
+  position: relative;
   display: grid;
   place-items: center;
-  border-right: 1px solid #d2d3d5;
-  color: var(--black);
-  background: #f1f1ef;
+  border-right: 1px solid var(--black);
+  color: #fff;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.13) 1px, transparent 1.15px),
+    var(--black);
+  background-size: 19px 19px;
   font-size: 55px;
   line-height: 1;
-  font-weight: 280;
-  letter-spacing: -0.07em;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.045em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .toc-copy {

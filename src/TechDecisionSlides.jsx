@@ -61,10 +61,10 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
               <div className="gate-box open">
                 <div className="gate-box-title">구조 전면 공개</div>
                 <ol className="doc-chain">
-                  <li>ITEM<span>품목</span></li>
-                  <li>MR<span>구매 요청서</span></li>
-                  <li>RFQ<span>견적 요청서</span></li>
-                  <li>PO<span>발주서</span></li>
+                  <li>제품</li>
+                  <li>구매 요청서</li>
+                  <li>견적 요청서</li>
+                  <li>발주서</li>
                 </ol>
               </div>
               <div className="gate-mark">
@@ -118,7 +118,8 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
               표준 문서 구조
             </div>
             <p>
-              데이터 구조가 완전히 공개되어 있고 ITEM · MR · RFQ · PO 표준 구매문서 체계를 갖춰,
+              데이터 구조가 완전히 공개되어 있고 제품 · 구매 요청서 · 견적 요청서 · 발주서로
+              이어지는 표준 구매문서 체계를 갖춰,
               AI 자동화 구현이 가장 명확하고 빠릅니다.
             </p>
           </article>
