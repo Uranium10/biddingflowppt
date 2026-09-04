@@ -1773,8 +1773,8 @@ select {
 
 .support-lane {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) auto;
-  gap: 16px;
+  grid-template-columns: 52px minmax(0, 1fr) 120px;
+  gap: 14px;
   align-items: center;
   min-height: 148px;
   padding: 24px 26px;
@@ -1830,7 +1830,7 @@ select {
 }
 
 .support-lane > b {
-  max-width: 150px;
+  max-width: 120px;
   color: currentColor;
   font-size: 12px;
   line-height: 1.4;
@@ -2227,6 +2227,584 @@ select {
 .tech-result p b {
   margin-right: 7px;
   color: #555b57;
+}
+
+/* 15. Workflow wrap-up */
+.workflow-wrap-heading {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: 72px;
+  align-items: end;
+  margin-top: 34px;
+}
+
+.workflow-wrap-heading h1 {
+  margin: 0;
+  color: var(--black);
+  font-size: 50px;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.workflow-wrap-heading > p {
+  margin: 0 0 5px;
+  color: var(--gray-1);
+  font-size: 20px;
+  line-height: 1.55;
+  font-weight: 580;
+  word-break: keep-all;
+}
+
+.workflow-wrap-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 40px;
+}
+
+.workflow-wrap-node {
+  position: relative;
+  min-height: 236px;
+  padding: 25px 25px 23px;
+  border: 1.5px solid #d4d5d7;
+  border-radius: 17px;
+  color: var(--black);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.workflow-wrap-slide.active .workflow-wrap-node {
+  animation: tech-node-enter 420ms cubic-bezier(.2, .75, .25, 1) both;
+  animation-delay: calc(var(--wrap-order) * 80ms + 80ms);
+}
+
+.workflow-wrap-node-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dedfe0;
+}
+
+.workflow-wrap-node-meta span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--black);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.workflow-wrap-node-meta b {
+  color: var(--gray-2);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+.workflow-wrap-node > strong {
+  display: block;
+  margin-top: 24px;
+  color: currentColor;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  word-break: keep-all;
+}
+
+.workflow-wrap-node > p {
+  margin: 13px 0 0;
+  color: var(--gray-1);
+  font-size: 17px;
+  line-height: 1.48;
+  font-weight: 560;
+  word-break: keep-all;
+}
+
+.workflow-wrap-node > i {
+  position: absolute;
+  z-index: 3;
+  top: 117px;
+  right: -21px;
+  width: 27px;
+  height: 1px;
+  border-top: 1.5px solid #bbbdbf;
+}
+
+.workflow-wrap-node > i::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid #adafb3;
+}
+
+.workflow-wrap-node.is-human-step {
+  color: #fff;
+  border-color: var(--black);
+  background: var(--black);
+}
+
+.workflow-wrap-node.is-human-step .workflow-wrap-node-meta {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.workflow-wrap-node.is-human-step .workflow-wrap-node-meta span {
+  color: var(--black);
+  background: #fff;
+}
+
+.workflow-wrap-node.is-human-step .workflow-wrap-node-meta b {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.workflow-wrap-node.is-human-step > p {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.workflow-wrap-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 132px;
+  margin-top: 19px;
+  padding: 25px 29px 25px 32px;
+  border: 1.5px solid var(--black);
+  color: #fff;
+  border-radius: 17px;
+  background: var(--black);
+}
+
+.workflow-wrap-result > div:first-child > span {
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+}
+
+.workflow-wrap-result strong {
+  display: block;
+  margin-top: 8px;
+  max-width: 1020px;
+  color: #fff;
+  font-size: 27px;
+  line-height: 1.35;
+  font-weight: 840;
+  letter-spacing: -0.035em;
+}
+
+.workflow-wrap-badges {
+  display: flex;
+  gap: 9px;
+}
+
+.workflow-wrap-badges span {
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+  font-weight: 760;
+}
+
+/* 16. Closing */
+.closing-slide {
+  background:
+    radial-gradient(circle at 86% 12%, rgba(16, 17, 18, 0.045), transparent 26%),
+    var(--paper);
+}
+
+.closing-content {
+  position: absolute;
+  inset: 38px 70px 78px;
+}
+
+.closing-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 470px;
+  gap: 110px;
+  align-items: center;
+  margin-top: 54px;
+}
+
+.closing-copy > p {
+  margin: 0 0 18px;
+  color: var(--gray-2);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.2em;
+}
+
+.closing-copy h1 {
+  margin: 0;
+  color: var(--black);
+  font-size: 68px;
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+}
+
+.closing-copy h2 {
+  margin: 33px 0 0;
+  color: var(--gray-1);
+  font-size: 21px;
+  line-height: 1.55;
+  font-weight: 550;
+  letter-spacing: -0.025em;
+}
+
+.closing-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 405px;
+  overflow: hidden;
+  border-radius: 42px;
+  color: #fff;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.1px, transparent 1.2px),
+    var(--black);
+  background-size: 22px 22px;
+}
+
+.closing-panel::after {
+  content: "";
+  position: absolute;
+  left: -70px;
+  right: -70px;
+  bottom: -105px;
+  height: 225px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+}
+
+.closing-panel-mark {
+  display: grid;
+  place-items: center;
+  width: 116px;
+  height: 116px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.closing-panel-mark svg {
+  width: 62px;
+  height: 62px;
+  fill: currentColor;
+}
+
+.closing-panel > span {
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 850;
+  letter-spacing: 0.17em;
+  text-align: center;
+}
+
+.closing-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.closing-principles article {
+  min-height: 132px;
+  padding: 21px 23px;
+  border-top: 3px solid var(--black);
+  background: #f1f1ef;
+}
+
+.closing-principles span {
+  color: var(--gray-2);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.closing-principles strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--black);
+  font-size: 20px;
+  font-weight: 830;
+}
+
+.closing-principles p {
+  margin: 7px 0 0;
+  color: var(--gray-1);
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 540;
+}
+
+.closing-footer {
+  position: absolute;
+  left: 70px;
+  right: 70px;
+  bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+  color: var(--gray-2);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 17. Q&A */
+.qna-slide {
+  color: #fff;
+  background:
+    radial-gradient(circle at 16% 82%, rgba(255, 255, 255, 0.08), transparent 30%),
+    var(--black);
+}
+
+.qna-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.42) 1.1px, transparent 1.2px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(90deg, transparent 20%, #000 100%);
+}
+
+.qna-header {
+  position: absolute;
+  z-index: 2;
+  top: 48px;
+  left: 70px;
+  right: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.17);
+}
+
+.qna-header > span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.2em;
+}
+
+.qna-content {
+  position: absolute;
+  z-index: 2;
+  left: 180px;
+  top: 250px;
+}
+
+.qna-content > p {
+  margin: 0 0 21px;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+}
+
+.qna-content h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 164px;
+  line-height: 0.88;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+}
+
+.qna-content h1 span {
+  color: transparent;
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.48);
+}
+
+.qna-rule {
+  width: 94px;
+  height: 5px;
+  margin: 45px 0 27px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.qna-content h2 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 28px;
+  font-weight: 570;
+  letter-spacing: -0.035em;
+}
+
+.qna-footer {
+  position: absolute;
+  z-index: 2;
+  left: 70px;
+  right: 70px;
+  bottom: 48px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.qna-footer div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qna-footer strong {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.qna-footer div span,
+.qna-footer > span {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   발표 화면 가독성 보정
+   장식용 캡션은 유지하고, 청중이 실제로 읽어야 하는 본문과 단계 정보만
+   16:9 프로젝터 화면에서 한 단계 크게 보이도록 조정합니다.
+   ───────────────────────────────────────────────────────────── */
+
+/* 05 · 시장 공백: 세 가지 근거를 멀리서도 한 번에 읽을 수 있게 확대 */
+.gap-row {
+  grid-template-columns: 60px 1fr;
+  min-height: 86px;
+  padding: 14px 21px;
+}
+
+.gap-index {
+  width: 40px;
+  height: 40px;
+  font-size: 13px;
+}
+
+.gap-row strong {
+  font-size: 21px;
+}
+
+.gap-row p {
+  margin-top: 6px;
+  font-size: 16.5px;
+  line-height: 1.35;
+}
+
+.gap-conclusion span {
+  font-size: 12px;
+}
+
+.gap-conclusion strong {
+  font-size: 21px;
+}
+
+/* 시장·도입 근거 페이지의 설명문 */
+.row-note {
+  font-size: 16px;
+}
+
+.bezel-metric .label,
+.gap-comparison span,
+.target-index,
+.funnel-step span {
+  font-size: 14px;
+}
+
+.target-row p,
+.evidence p {
+  font-size: 16px;
+}
+
+/* 목차와 섹션 안내: 발표자가 읽어 주지 않아도 이해되는 크기 */
+.toc-kicker,
+.toc-topics span,
+.section-divider-header > span,
+.section-divider-footer,
+.wide-content .section-name {
+  font-size: 13px;
+}
+
+.toc-copy > p {
+  font-size: 17px;
+}
+
+/* 시스템 구조와 다섯 단계 기술 설명 */
+.architecture-node > p {
+  font-size: 16px;
+}
+
+.support-lane p {
+  font-size: 14px;
+}
+
+.support-lane > b {
+  font-size: 13.5px;
+}
+
+.tech-tracker li span {
+  font-size: 12px;
+}
+
+.tech-tracker li strong {
+  font-size: 14.5px;
+}
+
+.tech-card-label span,
+.tech-card-label b {
+  font-size: 14px;
+}
+
+.tech-flow-node > span {
+  font-size: 13px;
+}
+
+.tech-flow-node > p {
+  font-size: 16.5px;
+}
+
+.tech-inline-stack > span,
+.tech-detail-grid article > span {
+  font-size: 13.5px;
+}
+
+.tech-inline-stack > b {
+  font-size: 14px;
+}
+
+.tech-principle p,
+.tech-result p {
+  font-size: 16px;
+}
+
+/* 마지막 정리 장의 보조 설명 */
+.workflow-wrap-node > span {
+  font-size: 13px;
+}
+
+.workflow-wrap-node > p {
+  font-size: 17px;
+}
+
+.closing-principles p {
+  font-size: 16px;
 }
 
 @keyframes tech-node-enter {

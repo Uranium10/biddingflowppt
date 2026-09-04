@@ -28,7 +28,7 @@ import { PositioningSlide, WhyErpnextSlide } from './TechDecisionSlides.jsx'
 
 const SLIDE_WIDTH = 1600
 const SLIDE_HEIGHT = 900
-const SLIDE_COUNT = 14
+const SLIDE_COUNT = 17
 
 const PROCESS_STEPS = [
   {
@@ -159,7 +159,7 @@ const TECH_SLIDES = [
     flow: [
       { icon: 'document', label: '견적 회신 수집', detail: '업체가 보낸 조건을 모음' },
       { icon: 'clock', label: '미회신 업체 알림', detail: '마감 전 자동으로 독촉' },
-      { icon: 'ai', label: '조건 맞춰 보기', detail: '규격·가격·납기를 같은 기준으로' },
+      { icon: 'ai', label: '조건 맞춰 보기', detail: '수량·가격·납기를 같은 기준으로' },
       { icon: 'ranking', label: '추천 순위 생성', detail: 'AI가 이유와 함께 정렬' },
       { icon: 'human', label: '최종 업체 선택', detail: '담당자가 근거를 보고 결정', actor: 'human' },
     ],
@@ -169,7 +169,7 @@ const TECH_SLIDES = [
     },
     tools: ['ERP 견적서', 'AI 견적 비교', '자동 독촉 메일'],
     outcome: '빠르면서도 근거가 남는 업체 선정',
-    future: '향후 이메일 PDF·Excel 견적도 자동 처리',
+    future: '이메일 PDF·Excel 견적도 자동 처리',
   },
   {
     step: 5,
@@ -183,7 +183,7 @@ const TECH_SLIDES = [
     },
     flow: [
       { icon: 'receipt', label: '물품 도착 확인', detail: '실제 납품 결과를 확인' },
-      { icon: 'score', label: '납기·가격 기록', detail: '수치로 평가할 항목 저장' },
+      { icon: 'score', label: '납기·가격·품질 기록', detail: '수치로 평가할 항목 저장' },
       { icon: 'human', label: '응대 품질 평가', detail: '담당자가 경험 정보를 보완', actor: 'human' },
       { icon: 'database', label: '다음 구매에 활용', detail: '업체 추천의 근거로 재사용' },
     ],
@@ -478,6 +478,157 @@ function TechStepSlide({ active, config, page }) {
       <footer className="wide-footer">
         <span>반복 업무는 자동화하고, 책임 있는 결정은 사람에게 남겼습니다.</span>
         <span className="page">{String(page).padStart(2, '0')} / {config.step}단계</span>
+      </footer>
+    </section>
+  )
+}
+
+function WorkflowWrapUpSlide({ active }) {
+  const outcomes = [
+    {
+      number: '01',
+      label: 'CONNECTED FLOW',
+      title: '구매 전 과정을 하나로',
+      detail: '구매 요청부터 협력사 평가까지 끊김 없이 연결합니다.',
+    },
+    {
+      number: '02',
+      label: 'AUTOMATION',
+      title: '반복 업무는 시스템이',
+      detail: '확인·탐색·독촉·비교처럼 반복되는 처리는 자동으로 수행합니다.',
+    },
+    {
+      number: '03',
+      label: 'HUMAN CONTROL',
+      title: '중요한 결정은 사람이',
+      detail: '선택과 승인처럼 책임이 필요한 순간은 담당자가 직접 판단합니다.',
+      emphasized: true,
+    },
+    {
+      number: '04',
+      label: 'TRACEABILITY',
+      title: '과정과 근거는 기록으로',
+      detail: '현재 상태와 판단 근거, 처리 이력을 언제든 확인할 수 있습니다.',
+    },
+  ]
+
+  return (
+    <section className={`slide wide-slide workflow-wrap-slide ${active ? 'active' : ''}`} aria-label="BiddingFlow 핵심 성과 요약">
+      <section className="wide-content">
+        <BrandLine section="WORKFLOW WRAP-UP · 03" />
+
+        <div className="workflow-wrap-heading">
+          <div>
+            <p className="tech-eyebrow">END-TO-END PROCUREMENT</p>
+            <h1>구매 업무 전체를,<br />하나의 흐름으로 연결했습니다.</h1>
+          </div>
+          <p>
+            반복 업무는 시스템이 이어서 처리하고, 중요한 선택과 승인만 담당자가 직접 결정합니다.
+          </p>
+        </div>
+
+        <div className="workflow-wrap-flow" aria-label="BiddingFlow의 네 가지 핵심 성과">
+          {outcomes.map((outcome, index) => (
+            <article
+              className={`workflow-wrap-node ${outcome.emphasized ? 'is-human-step' : ''}`}
+              key={outcome.number}
+              style={{ '--wrap-order': index }}
+            >
+              <div className="workflow-wrap-node-meta">
+                <span>{outcome.number}</span>
+                <b>{outcome.label}</b>
+              </div>
+              <strong>{outcome.title}</strong>
+              <p>{outcome.detail}</p>
+              {index < outcomes.length - 1 && <i aria-hidden="true" />}
+            </article>
+          ))}
+        </div>
+
+        <div className="workflow-wrap-result">
+          <div>
+            <span>THE CORE VALUE</span>
+            <strong>업무 효율은 높이고, 사람의 통제권과 결과의 투명성은 유지합니다.</strong>
+          </div>
+          <div className="workflow-wrap-badges" aria-label="BiddingFlow의 핵심 가치">
+            <span>효율</span>
+            <span>통제</span>
+            <span>투명성</span>
+          </div>
+        </div>
+      </section>
+      <footer className="wide-footer">
+        <span>반복은 자동으로, 책임 있는 결정은 사람에게 남겼습니다.</span>
+        <span className="page">15 / WRAP-UP</span>
+      </footer>
+    </section>
+  )
+}
+
+function ClosingSlide({ active }) {
+  const principles = [
+    ['01', '반복은 자동으로', '확인·탐색·독촉·비교를 시스템이 이어갑니다.'],
+    ['02', '근거는 투명하게', 'AI의 추천과 처리 결과를 사람이 확인할 수 있습니다.'],
+    ['03', '결정은 사람에게', '승인과 최종 선택은 책임 있는 담당자가 수행합니다.'],
+  ]
+
+  return (
+    <section className={`slide closing-slide ${active ? 'active' : ''}`} aria-label="프로젝트 마무리">
+      <section className="closing-content">
+        <BrandLine section="CONCLUSION · 04" />
+        <div className="closing-layout">
+          <div className="closing-copy">
+            <p>BIDDINGFLOW</p>
+            <h1>구매는 물 흐르듯,<br />결정은 신중하게.</h1>
+            <h2>
+              BiddingFlow는 반복 업무를 이어가고,<br />사람이 책임 있는 결정에 집중하게 합니다.
+            </h2>
+          </div>
+          <div className="closing-panel" aria-hidden="true">
+            <div className="closing-panel-mark"><SailboatIcon /></div>
+            <span>AI AUTONOMOUS<br />PROCUREMENT</span>
+          </div>
+        </div>
+        <div className="closing-principles">
+          {principles.map(([number, title, detail]) => (
+            <article key={number}>
+              <span>{number}</span>
+              <strong>{title}</strong>
+              <p>{detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <footer className="closing-footer">
+        <span>SKN31 · 3TEAM</span>
+        <span>16 / CONCLUSION</span>
+      </footer>
+    </section>
+  )
+}
+
+function QnaSlide({ active }) {
+  return (
+    <section className={`slide qna-slide ${active ? 'active' : ''}`} aria-label="질의응답">
+      <header className="qna-header">
+        <div className="section-divider-brand">
+          <div className="section-divider-logo"><SailboatIcon /></div>
+          <strong>BiddingFlow</strong>
+        </div>
+        <span>Q &amp; A · 05</span>
+      </header>
+      <div className="qna-content">
+        <p>THANK YOU</p>
+        <h1>Q <span>&amp;</span> A</h1>
+        <div className="qna-rule" />
+        <h2>질문을 듣겠습니다.</h2>
+      </div>
+      <footer className="qna-footer">
+        <div>
+          <strong>구매는 물 흐르듯, 결정은 신중하게.</strong>
+          <span>AI 기반 구매 업무 자동화 플랫폼</span>
+        </div>
+        <span>17 / Q&amp;A</span>
       </footer>
     </section>
   )
@@ -992,6 +1143,9 @@ function App() {
             page={index + 10}
           />
         ))}
+        <WorkflowWrapUpSlide active={current === 14} />
+        <ClosingSlide active={current === 15} />
+        <QnaSlide active={current === 16} />
       </main>
 
       <nav className="controls" aria-label="슬라이드 이동">
