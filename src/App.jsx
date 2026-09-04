@@ -157,8 +157,8 @@ const TECH_SLIDES = [
       impact: '비교 시간 · 판단 편차',
     },
     flow: [
-      { icon: 'document', label: '견적 회신 수집', detail: '업체가 보낸 조건을 모음' },
       { icon: 'clock', label: '미회신 업체 알림', detail: '마감 전 자동으로 독촉' },
+      { icon: 'document', label: '견적 회신 수집', detail: '업체가 보낸 조건을 모음' },
       { icon: 'ai', label: '조건 맞춰 보기', detail: '수량·가격·납기를 같은 기준으로' },
       { icon: 'ranking', label: '추천 순위 생성', detail: 'AI가 이유와 함께 정렬' },
       { icon: 'human', label: '최종 업체 선택', detail: '담당자가 근거를 보고 결정', actor: 'human' },
@@ -575,23 +575,19 @@ function ClosingSlide({ active }) {
   return (
     <section className={`slide closing-slide ${active ? 'active' : ''}`} aria-label="프로젝트 마무리">
       <section className="closing-content">
-        <BrandLine section="CONCLUSION · 04" />
-        <div className="closing-layout">
-          <div className="closing-copy">
-            <p>BIDDINGFLOW</p>
-            <h1>구매는 물 흐르듯,<br />결정은 신중하게.</h1>
-            <h2>
-              BiddingFlow는 반복 업무를 이어가고,<br />사람이 책임 있는 결정에 집중하게 합니다.
-            </h2>
-          </div>
-          <div className="closing-panel" aria-hidden="true">
-            <div className="closing-panel-mark"><SailboatIcon /></div>
-            <span>AI AUTONOMOUS<br />PROCUREMENT</span>
-          </div>
+        <div className="closing-brand">
+          <div className="closing-brand-mark"><SailboatIcon /></div>
+          <span>BIDDINGFLOW</span>
         </div>
+
+        <div className="closing-copy">
+          <h1>구매는 물 흐르듯, 결정은 신중하게.</h1>
+          <h2>BiddingFlow는 반복 업무를 이어가고, 사람이 책임 있는 결정에 집중하게 합니다.</h2>
+        </div>
+
         <div className="closing-principles">
-          {principles.map(([number, title, detail]) => (
-            <article key={number}>
+          {principles.map(([number, title, detail], index) => (
+            <article key={number} style={{ '--closing-order': index }}>
               <span>{number}</span>
               <strong>{title}</strong>
               <p>{detail}</p>
