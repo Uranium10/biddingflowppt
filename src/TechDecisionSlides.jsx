@@ -94,8 +94,8 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
             <div className="reason-index">01</div>
             <div className="reason-head">폐쇄형 구조</div>
             <p>
-              API와 데이터 구조가 비공개에 가까워, 외부 AI 에이전트가 데이터를 직접 읽고 자동화
-              로직을 붙이기 어렵습니다.
+              일부 상용 ERP는 API와 데이터 구조가 비공개에 가까워, 외부 AI 에이전트가 데이터를
+              직접 읽고 자동화 로직을 붙이기 어렵습니다.
             </p>
           </article>
           <article className="reason-row">
@@ -106,8 +106,8 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
               커스터마이징
             </div>
             <p>
-              신규 기능마다 벤더를 통한 개발이 필요해 비용과 검증 기간이 길어집니다. 빠르게
-              돌려봐야 하는 MVP 단계와 맞지 않습니다.
+              상용 ERP의 기능 확장은 벤더를 통한 별도 개발이 필요한 경우가 많아 비용과 검증
+              기간이 길어집니다.
             </p>
           </article>
           <article className="reason-row pick">
@@ -118,9 +118,8 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
               표준 문서 구조
             </div>
             <p>
-              데이터 구조가 완전히 공개되어 있고 제품 · 구매 요청서 · 견적 요청서 · 발주서로
-              이어지는 표준 구매문서 체계를 갖춰,
-              AI 자동화 구현이 가장 명확하고 빠릅니다.
+              ERPNext는 데이터 구조와 제품 · 구매 요청서 · 견적 요청서 · 발주서로 이어지는 표준
+              구매문서 체계를 공개해 AI 자동화를 빠르게 검증할 수 있습니다.
             </p>
           </article>
         </div>
