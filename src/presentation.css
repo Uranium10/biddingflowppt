@@ -2419,17 +2419,27 @@ select {
 
 .workflow-wrap-badges {
   display: flex;
-  gap: 9px;
+  align-items: center;
+  gap: 0;
+  flex: 0 0 auto;
 }
 
 .workflow-wrap-badges span {
-  padding: 10px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
   color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  font-size: 14px;
-  font-weight: 760;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 820;
+  letter-spacing: -0.025em;
+}
+
+.workflow-wrap-badges span:not(:last-child)::after {
+  content: "|";
+  margin: 0 16px;
+  color: rgba(255, 255, 255, 0.32);
+  font-weight: 420;
 }
 
 /* 16. Closing */
