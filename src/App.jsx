@@ -109,10 +109,10 @@ const TECH_SLIDES = [
     },
     flow: [
       { icon: 'webhook', label: '요청 접수', detail: '새 구매 요청을 바로 확인' },
-      { icon: 'human', label: '담당자 검토', detail: '구매 시작 또는 반려' },
+      { icon: 'human', label: '담당자 검토', detail: '구매 시작 또는 반려', actor: 'human' },
       { icon: 'filter', label: '재고 후보 추림', detail: '같은 품목군과 수량 확인' },
       { icon: 'ai', label: '대체 가능성 확인', detail: 'AI가 용도와 규격을 비교' },
-      { icon: 'branch', label: '요청자가 선택', detail: '재고 사용 또는 새로 구매' },
+      { icon: 'branch', label: '요청자가 선택', detail: '재고 사용 또는 새로 구매', actor: 'human' },
     ],
     principle: {
       title: '명확한 조건은 규칙으로, 해석은 AI로',
@@ -135,7 +135,7 @@ const TECH_SLIDES = [
       { icon: 'rule', label: '여러 견적 필요?', detail: '납품 기한·금액·과거 거래 확인' },
       { icon: 'search', label: '공급사 탐색', detail: '사내 이력·공공 데이터·웹' },
       { icon: 'contact', label: '연락처 확인', detail: '공식 홈페이지와 이메일 확인' },
-      { icon: 'human', label: '보낼 업체 선택', detail: '담당자가 후보를 최종 확인' },
+      { icon: 'human', label: '보낼 업체 선택', detail: '담당자가 후보를 최종 확인', actor: 'human' },
       { icon: 'mail', label: '견적 요청 발송', detail: 'ERP 문서와 이메일 자동 생성' },
     ],
     principle: {
@@ -161,7 +161,7 @@ const TECH_SLIDES = [
       { icon: 'clock', label: '미회신 업체 알림', detail: '마감 전 자동으로 독촉' },
       { icon: 'ai', label: '조건 맞춰 보기', detail: '규격·가격·납기를 같은 기준으로' },
       { icon: 'ranking', label: '추천 순위 생성', detail: 'AI가 이유와 함께 정렬' },
-      { icon: 'human', label: '최종 업체 선택', detail: '담당자가 근거를 보고 결정' },
+      { icon: 'human', label: '최종 업체 선택', detail: '담당자가 근거를 보고 결정', actor: 'human' },
     ],
     principle: {
       title: 'AI는 비교 근거를 만들고, 사람은 선택',
@@ -184,7 +184,7 @@ const TECH_SLIDES = [
     flow: [
       { icon: 'receipt', label: '물품 도착 확인', detail: '실제 납품 결과를 확인' },
       { icon: 'score', label: '납기·가격 기록', detail: '수치로 평가할 항목 저장' },
-      { icon: 'human', label: '응대 품질 평가', detail: '담당자가 경험 정보를 보완' },
+      { icon: 'human', label: '응대 품질 평가', detail: '담당자가 경험 정보를 보완', actor: 'human' },
       { icon: 'database', label: '다음 구매에 활용', detail: '업체 추천의 근거로 재사용' },
     ],
     principle: {
@@ -275,7 +275,7 @@ function TableOfContentsSlide({ active }) {
         <div className="toc-layout">
           <div className="toc-intro">
             <p className="toc-kicker">PRESENTATION MAP</p>
-            <h1>오늘은 두 가지를<br />말씀드립니다.</h1>
+            <h1>목차</h1>
             <p>
               현업에서 발견한 문제부터,<br />이를 자동화한 구조와 기술까지<br />한 흐름으로 보여드립니다.
             </p>
@@ -442,7 +442,11 @@ function TechStepSlide({ active, config, page }) {
             </div>
             <div className={`tech-flow tech-flow-${config.flow.length}`}>
               {config.flow.map((node, index) => (
-                <div className="tech-flow-node" key={node.label} style={{ '--flow-order': index }}>
+                <div
+                  className={`tech-flow-node ${node.actor === 'human' ? 'is-human-step' : ''}`}
+                  key={node.label}
+                  style={{ '--flow-order': index }}
+                >
                   <div className="tech-flow-icon"><TechIcon type={node.icon} /></div>
                   <span>{String(index + 1).padStart(2, '0')}</span>
                   <strong>{node.label}</strong>
@@ -537,7 +541,8 @@ function ProcessSlide({ active }) {
       <aside className="bezel" aria-hidden="true">
         <div className="bezel-screen process-screen">
           <div className="dot-field target-dot-field" />
-          <div className="bezel-kicker">PROCUREMENT FLOW / 01</div>
+          <div className="bezel-kicker">PURCHASE JOURNEY / 01</div>
+          <div className="process-bezel-title">구매 요청부터 협력사 평가까지</div>
           <div className="process-rail">
             {PROCESS_STEPS.map((step) => (
               <div className="process-rail-step" key={step.number}>
