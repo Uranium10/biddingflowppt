@@ -39,35 +39,39 @@ export function WhyErpnextSlide({ active, page = '05 / WHY ERPNEXT' }) {
         <div className="bezel-screen">
           <div className="dot-field target-dot-field" />
           <div className="bezel-kicker">WHY ERPNEXT / 01</div>
-          <div className="gate">
-            <div className="gate-card">
-              <div className="gate-label">국산 ERP</div>
-              <div className="gate-title">
-                API · 데이터 구조
-                <br />
-                비공개
+
+          <div className="bezel-panel">
+            <section>
+              <p className="panel-label gate-label">국산 ERP</p>
+              <div className="gate-box closed">
+                <div className="gate-box-title">API · 데이터 구조 비공개</div>
+                <div className="gate-veil" />
+                <div className="gate-chips">
+                  <span>더존</span>
+                  <span>영림</span>
+                  <span>이카운트</span>
+                </div>
               </div>
-              <div className="gate-chips">
-                <span>더존</span>
-                <span>영림</span>
-                <span>이카운트</span>
-              </div>
-            </div>
+            </section>
+
             <div className="gate-arrow">↓</div>
-            <div className="gate-card open">
-              <div className="gate-label">ERPNEXT</div>
-              <div className="gate-title">구조 전면 공개</div>
-              <div className="gate-chips">
-                <span>ITEM</span>
-                <span>MR</span>
-                <span>RFQ</span>
-                <span>PO</span>
+
+            <section>
+              <p className="panel-label gate-label">ERPNEXT</p>
+              <div className="gate-box open">
+                <div className="gate-box-title">구조 전면 공개</div>
+                <ol className="doc-chain">
+                  <li>ITEM<span>품목</span></li>
+                  <li>MR<span>구매 요청서</span></li>
+                  <li>RFQ<span>견적 요청서</span></li>
+                  <li>PO<span>발주서</span></li>
+                </ol>
               </div>
               <div className="gate-mark">
                 <strong>3만+</strong>
                 <span>글로벌 사용 기업</span>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </aside>
@@ -173,24 +177,40 @@ export function PositioningSlide({ active, page = '06 / POSITIONING' }) {
         <div className="bezel-screen dark">
           <div className="dot-field" />
           <div className="bezel-kicker">POSITIONING / 02</div>
-          <div className="layer">
-            <div className="layer-title">도입 방식</div>
-            <div className="layer-stack">
-              <div className="layer-block top">
-                <strong>BiddingFlow</strong>
-                <span>경량 AI 레이어 · 판단만 수행</span>
+
+          <div className="bezel-panel">
+            <section className="layer-sec">
+              <p className="panel-label layer-label">교체형 · 기존 대형 ERP</p>
+              <div className="layer-stack">
+                <div className="layer-block replace">
+                  <strong>새 플랫폼</strong>
+                  <span>전면 재구축 · 수개월</span>
+                </div>
+                <div className="layer-block dropped">
+                  <strong>기존 ERP</strong>
+                  <span>대체 · 폐기</span>
+                </div>
               </div>
-              <div className="layer-plus">+</div>
-              <div className="layer-block">
-                <strong>기존 ERP</strong>
-                <span>데이터 · 워크플로 그대로 유지</span>
+              <p className="layer-cap">전환 비용과 도입 리스크가 큽니다.</p>
+            </section>
+
+            <div className="layer-rule">VS</div>
+
+            <section className="layer-sec pick">
+              <p className="panel-label layer-label">얹는 방식 · BIDDINGFLOW</p>
+              <div className="layer-stack">
+                <div className="layer-block on">
+                  <strong>BiddingFlow</strong>
+                  <span>경량 AI 레이어 · 판단만 수행</span>
+                </div>
+                <div className="layer-join">+</div>
+                <div className="layer-block keep">
+                  <strong>기존 ERP</strong>
+                  <span>데이터 · 워크플로 그대로 유지</span>
+                </div>
               </div>
-            </div>
-            <p className="layer-note">
-              대형 ERP는 아래 칸을 통째로 교체합니다.
-              <br />
-              저희는 위에 한 겹 얹습니다.
-            </p>
+              <p className="layer-cap pick">교체 없이 위에 한 겹만 얹습니다.</p>
+            </section>
           </div>
         </div>
       </aside>

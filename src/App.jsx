@@ -1,10 +1,34 @@
 import { useCallback, useEffect, useState } from 'react'
+import {
+  BadgeCheck,
+  Bot,
+  Boxes,
+  Braces,
+  ChartNoAxesColumnIncreasing,
+  CircleCheck,
+  Clock3,
+  ContactRound,
+  Database,
+  FileText,
+  GitBranch,
+  HardDrive,
+  Lightbulb,
+  ListFilter,
+  Mail,
+  Monitor,
+  RadioTower,
+  ReceiptText,
+  Search,
+  SlidersHorizontal,
+  UserRound,
+  Workflow,
+} from 'lucide-react'
 import './presentation.css'
 import { PositioningSlide, WhyErpnextSlide } from './TechDecisionSlides.jsx'
 
 const SLIDE_WIDTH = 1600
 const SLIDE_HEIGHT = 900
-const SLIDE_COUNT = 13
+const SLIDE_COUNT = 15
 
 const PROCESS_STEPS = [
   {
@@ -51,150 +75,125 @@ const TECH_STEP_TITLES = [
 const TECH_SLIDES = [
   {
     step: 1,
-    eyebrow: 'SPECIFICATION GATE',
-    title: '등록 시점에 규격 누락을 막습니다.',
-    summary: '불완전한 품목 정보가 구매 요청과 발주 단계까지 흘러가는 문제를 가장 앞에서 차단합니다.',
+    eyebrow: '품목 정보 확인',
+    title: '품목을 등록할 때, 빠진 규격부터 확인합니다.',
+    summary: '불완전한 정보가 견적과 발주까지 넘어가기 전에 막습니다.',
     need: {
       title: '왜 필요한가',
-      body: '규격이 비어 있으면 구매 담당자가 다시 확인해야 하고, 잘못된 견적과 발주 실패로 이어질 수 있습니다.',
-      impact: '재확인 반복 · 후속 오류',
+      body: '규격이 빠지면 담당자가 다시 물어봐야 하고, 잘못된 견적과 발주로 이어질 수 있습니다.',
+      impact: '재확인 반복 · 발주 오류',
     },
     flow: [
-      { icon: 'document', label: 'Item 등록', detail: '비활성 상태로 생성' },
-      { icon: 'webhook', label: '웹훅 감지', detail: '신규 등록 즉시 시작' },
-      { icon: 'database', label: '규격 기준 조회', detail: '품목 그룹별 기준 재사용' },
-      { icon: 'ai', label: 'AI 대조', detail: '설명과 필수 규격 비교' },
-      { icon: 'check', label: '자동 처리', detail: '활성화 또는 보완 코멘트' },
+      { icon: 'document', label: '등록 요청', detail: '새 품목을 임시 저장' },
+      { icon: 'webhook', label: '요청 감지', detail: '등록 즉시 자동 확인' },
+      { icon: 'database', label: '기준 확인', detail: '같은 품목군의 필수 규격 조회' },
+      { icon: 'ai', label: '누락 비교', detail: 'AI가 설명과 기준을 대조' },
+      { icon: 'check', label: '결과 반영', detail: '등록하거나 보완을 요청' },
     ],
     principle: {
-      title: '규격 기준은 한 번 만들고 재사용',
-      body: '그룹 기준이 없을 때만 AI가 최소 규격을 정의해 DB에 저장합니다. 이후 같은 그룹에는 저장된 기준을 재사용해 비용과 편차를 줄입니다.',
+      title: '한 번 만든 규격 기준을 계속 활용',
+      body: '품목군별 기준이 없을 때만 AI가 만들고, 다음 요청부터는 저장된 기준을 다시 사용합니다.',
     },
-    tools: ['Item Webhook', 'GPT-4o-mini · T=0', 'PostgreSQL', 'ERPNext REST API'],
-    outcome: '불완전한 품목을 구매 단계 진입 전에 차단',
-    roles: {
-      system: 'Item 감지 · 그룹 기준 조회 · 활성 상태 변경',
-      ai: '최소 규격 생성 · 설명의 누락 항목 판정',
-      human: '누락된 정보만 보완해 다시 요청',
-    },
+    tools: ['ERP 품목 정보', '실시간 요청 감지', 'AI 규격 비교', '규격 기준 DB'],
+    outcome: '누락된 규격을 구매 시작 전에 확인',
   },
   {
     step: 2,
-    eyebrow: 'SUBSTITUTE CHECK',
-    title: '후보를 먼저 좁히고, AI는 마지막에 판단합니다.',
-    summary: '재고가 있는 대체품을 놓친 채 신규 구매를 시작하는 낭비를 줄이고 담당자의 탐색 시간을 단축합니다.',
+    eyebrow: '대체품 확인',
+    title: '새로 사기 전에, 쓸 수 있는 재고부터 찾습니다.',
+    summary: '규칙으로 후보를 좁힌 뒤, AI가 실제 대체 가능성을 확인합니다.',
     need: {
       title: '왜 필요한가',
-      body: '담당자가 품목과 재고를 일일이 뒤져 대체품을 찾으면 시간이 오래 걸리고, 보유 재고를 두고 다시 구매할 수 있습니다.',
-      impact: '재고 낭비 · 수기 탐색',
+      body: '담당자가 재고를 일일이 확인하면 시간이 오래 걸리고, 이미 있는 물건을 다시 살 수 있습니다.',
+      impact: '중복 구매 · 재고 낭비',
     },
     flow: [
-      { icon: 'webhook', label: 'Draft 감지', detail: 'MR 생성 실시간 수신' },
-      { icon: 'human', label: '사람의 시작 결정', detail: '담당자 승인 또는 반려' },
-      { icon: 'filter', label: '규칙 선별', detail: '같은 그룹 · 충분한 재고' },
-      { icon: 'ai', label: 'AI 적합성 판단', detail: '실제 대체 가능성 분석' },
-      { icon: 'branch', label: '요청자 선택', detail: '대체품 취소 또는 신규 구매' },
+      { icon: 'webhook', label: '요청 접수', detail: '새 구매 요청을 바로 확인' },
+      { icon: 'human', label: '담당자 검토', detail: '구매 시작 또는 반려' },
+      { icon: 'filter', label: '재고 후보 추림', detail: '같은 품목군과 수량 확인' },
+      { icon: 'ai', label: '대체 가능성 확인', detail: 'AI가 용도와 규격을 비교' },
+      { icon: 'branch', label: '요청자가 선택', detail: '재고 사용 또는 새로 구매' },
     ],
     principle: {
-      title: '규칙 먼저, AI는 필요한 후보에만',
-      body: '품목 그룹과 재고 수량으로 후보를 줄인 뒤 AI를 호출합니다. 모든 품목을 AI에 보내지 않아 토큰 사용과 오판 가능성을 함께 낮춥니다.',
+      title: '명확한 조건은 규칙으로, 해석은 AI로',
+      body: '재고량은 규칙으로 빠르게 거르고, 용도와 규격처럼 해석이 필요한 부분만 AI가 비교합니다.',
     },
-    tools: ['MR Webhook', 'Stock API', 'GPT-4o-mini', 'ERPNext REST API'],
-    outcome: '대체 재고 활용률을 높이고 불필요한 신규 구매 방지',
-    roles: {
-      system: 'Draft 동기화 · 품목 그룹과 재고로 후보 선별',
-      ai: '후보가 실제 대체 가능한지 의미 기반 비교',
-      human: '구매 담당자가 시작 · 요청자가 대체품 여부 결정',
-    },
+    tools: ['ERP 구매 요청', 'ERP 재고', 'AI 대체품 판단'],
+    outcome: '불필요한 구매를 줄이고 보유 재고를 먼저 활용',
   },
   {
     step: 3,
-    eyebrow: 'SUPPLIER DISCOVERY',
-    title: '판단부터 탐색, RFQ 발송까지 한 흐름으로 연결합니다.',
-    summary: '입찰 필요 여부를 먼저 정하고, 여러 공급사 출처를 병렬 탐색해 실제 연락 가능한 후보로 정제합니다.',
+    eyebrow: '공급사 탐색과 견적 요청',
+    title: '여러 견적이 필요할 때만, 새 공급사를 찾습니다.',
+    summary: '구매 이력과 납품 기한을 먼저 확인하고, 필요할 때만 새 업체에 견적을 요청합니다.',
     need: {
       title: '왜 필요한가',
-      body: '신규 공급사를 찾을 때 검색, 홈페이지 확인, 연락처 수집과 RFQ 작성이 서로 다른 도구에서 반복됩니다.',
-      impact: '탐색 지연 · 접점 누락',
+      body: '검색부터 연락처 확인과 견적 요청까지 도구가 나뉘면, 후보를 놓치고 같은 일을 반복하게 됩니다.',
+      impact: '반복 검색 · 공급사 누락',
     },
     flow: [
-      { icon: 'rule', label: '입찰 여부 판정', detail: '납기 · 금액 · 거래 이력' },
-      { icon: 'search', label: '후보 병렬 탐색', detail: '등록업체 · 공공데이터 · 웹' },
-      { icon: 'contact', label: '연락처 보강', detail: '공식 사이트 · Jina 폴백' },
-      { icon: 'human', label: '대상 확정', detail: '담당자 선택 · 이메일 보완' },
-      { icon: 'mail', label: 'RFQ 발송', detail: '문서 생성 · Submit · 이메일' },
+      { icon: 'rule', label: '여러 견적 필요?', detail: '납품 기한·금액·과거 거래 확인' },
+      { icon: 'search', label: '공급사 탐색', detail: '사내 이력·공공 데이터·웹' },
+      { icon: 'contact', label: '연락처 확인', detail: '공식 홈페이지와 이메일 확인' },
+      { icon: 'human', label: '보낼 업체 선택', detail: '담당자가 후보를 최종 확인' },
+      { icon: 'mail', label: '견적 요청 발송', detail: 'ERP 문서와 이메일 자동 생성' },
     ],
     principle: {
-      title: '유료 검색은 후보 발굴에, 무료 검색은 연락처 확인에',
-      body: 'Tavily는 기업 후보 추출에만 쓰고 이후 연락처는 네이버 검색과 홈페이지 수집으로 보강합니다. 여러 기업은 배치 처리해 호출 수를 줄입니다.',
+      title: '찾는 일은 동시에, 결정은 한 번만',
+      body: '여러 곳에서 후보를 동시에 찾고 AI가 관련 업체를 정리하면, 담당자는 정리된 결과만 확인합니다.',
     },
-    tools: ['자체 DB·PO 이력', '나라장터 API', 'Tavily', 'Naver Search', 'Jina Reader'],
-    outcome: '웹 검색과 RFQ 문서 작업을 하나의 공급사 탐색 파이프라인으로 통합',
-    future: '신규 거래 시 사업자등록증·통장사본 등 필수 서류 수집은 확장 예정',
-    roles: {
-      system: '입찰 규칙 · 병렬 검색 · RFQ 생성과 발송',
-      ai: '공급사 연관성 · 연락 가능성 · 후보 적합성 평가',
-      human: '발송 대상을 선택하고 누락된 이메일 보완',
-    },
+    tools: ['사내 거래 이력', '공공 조달 데이터', '웹 검색', 'ERP 견적 요청'],
+    outcome: '공급사 탐색부터 견적 요청까지 한 화면에서 완료',
+    future: '향후 신규 업체의 필수 서류 수집까지 확장',
   },
   {
     step: 4,
-    eyebrow: 'QUOTATION INTELLIGENCE',
-    title: '서술형 견적을 같은 기준 위에 올립니다.',
-    summary: '형식이 다른 견적을 규격·수량·가격·납기로 비교하고, 담당자가 검토할 우선순위를 만듭니다.',
+    eyebrow: '견적 비교와 업체 선정',
+    title: '제각각인 견적을 한눈에 비교합니다.',
+    summary: '가격뿐 아니라 규격, 수량, 납기까지 같은 표에서 비교합니다.',
     need: {
       title: '왜 필요한가',
-      body: '견적 조건은 문장과 서로 다른 단위로 작성돼 단순 정렬이 어렵고, 미회신 업체 독촉도 담당자가 반복해야 합니다.',
-      impact: '비교 편차 · 독촉 반복',
+      body: '견적서마다 표현과 단위가 달라, 가격만 정렬해서는 올바른 선택이 어렵습니다.',
+      impact: '비교 시간 · 판단 편차',
     },
     flow: [
-      { icon: 'clock', label: '마감 관리', detail: '미회신 업체 자동 독촉' },
-      { icon: 'document', label: 'SQ 수집', detail: '제출 견적과 첨부 확인' },
-      { icon: 'ai', label: '조건 분석', detail: '규격 · 수량 · 가격 · 납기' },
-      { icon: 'ranking', label: '우선순위 생성', detail: '근거와 함께 정렬' },
-      { icon: 'human', label: '최종 선정', detail: '담당자 검토와 승인' },
+      { icon: 'document', label: '견적 회신 수집', detail: '업체가 보낸 조건을 모음' },
+      { icon: 'clock', label: '미회신 업체 알림', detail: '마감 전 자동으로 독촉' },
+      { icon: 'ai', label: '조건 맞춰 보기', detail: '규격·가격·납기를 같은 기준으로' },
+      { icon: 'ranking', label: '추천 순위 생성', detail: 'AI가 이유와 함께 정렬' },
+      { icon: 'human', label: '최종 업체 선택', detail: '담당자가 근거를 보고 결정' },
     ],
     principle: {
-      title: 'AI는 추천하고, 최종 결정은 사람이 수행',
-      body: '현재는 GPT-4o-mini가 자유 서술형 조건을 비교합니다. 향후 보안성과 재현성을 위해 품목·단위·허용오차 기반 규칙 평가를 병행합니다.',
+      title: 'AI는 비교 근거를 만들고, 사람은 선택',
+      body: 'AI가 조건 차이와 추천 이유를 보여주며, 최종 계약 판단은 담당자가 수행합니다.',
     },
-    tools: ['Supplier Quotation', 'GPT-4o-mini', 'ERPNext REST API', '자동 메일'],
-    outcome: '비교 근거를 표준화하고 최종 선택 시간을 단축',
-    future: '포털 외 이메일 PDF·Excel 견적서 파싱은 확장 예정',
-    roles: {
-      system: '견적 수집 · 회신 마감 · 미회신 독촉',
-      ai: '규격·가격·납기 조건 비교와 순위 추천',
-      human: '추천 근거를 검토하고 최종 공급사 선정',
-    },
+    tools: ['ERP 견적서', 'AI 견적 비교', '자동 독촉 메일'],
+    outcome: '빠르면서도 근거가 남는 업체 선정',
+    future: '향후 이메일 PDF·Excel 견적도 자동 처리',
   },
   {
     step: 5,
-    eyebrow: 'SUPPLIER PERFORMANCE',
-    title: '거래 이후 평가를 다음 구매의 데이터로 만듭니다.',
-    summary: '납기와 가격뿐 아니라 응대와 회신 같은 정성 정보까지 남겨 공급사 선택의 근거를 축적합니다.',
+    eyebrow: '협력사 관리와 평가',
+    title: '거래 결과를 다음 공급사 선택에 씁니다.',
+    summary: '납기와 가격, 응대 품질을 기록해 믿을 수 있는 업체를 먼저 찾습니다.',
     need: {
       title: '왜 필요한가',
-      body: '거래가 끝난 뒤 평가는 누락되기 쉽고, 응대 품질 같은 경험 정보가 담당자의 기억에만 남습니다.',
-      impact: '평가 누락 · 경험 단절',
+      body: '거래가 끝나면 평가는 빠지기 쉽고, 업체에 대한 경험이 담당자의 기억에만 남습니다.',
+      impact: '평가 누락 · 경험 소실',
     },
     flow: [
-      { icon: 'receipt', label: '거래 완료 감지', detail: '입고 · 납기 · 가격 수집' },
-      { icon: 'score', label: '정형 지표 산정', detail: 'ERPNext 내장 평가 활용' },
-      { icon: 'human', label: '정성 평가 보완', detail: '응대 · 회신 품질 기록' },
-      { icon: 'database', label: '이력 축적', detail: '다음 공급사 선정에 활용' },
+      { icon: 'receipt', label: '물품 도착 확인', detail: '실제 납품 결과를 확인' },
+      { icon: 'score', label: '납기·가격 기록', detail: '수치로 평가할 항목 저장' },
+      { icon: 'human', label: '응대 품질 평가', detail: '담당자가 경험 정보를 보완' },
+      { icon: 'database', label: '다음 구매에 활용', detail: '업체 추천의 근거로 재사용' },
     ],
     principle: {
-      title: '현재는 기반 확인, 연동과 기준 확장은 다음 단계',
-      body: 'ERPNext Supplier Scorecard는 납기·가격 기반 평점을 지원합니다. 현재 시스템에는 완전 연동되지 않아, 평가 자동화와 정성 지표 확장이 남아 있습니다.',
+      title: '거래가 끝나야 구매 데이터가 완성',
+      body: '실제 납품 기록과 담당자의 평가를 함께 남겨, 다음 공급사 추천의 근거로 사용합니다.',
     },
-    tools: ['Purchase Receipt', 'Supplier Scorecard', 'PostgreSQL', '평가 UI'],
-    outcome: '거래 경험을 일회성 기억이 아닌 재사용 가능한 공급사 데이터로 전환',
-    future: '미구현 · Supplier Scorecard 연동 및 평가 기준 확장 예정',
-    roles: {
-      system: '입고·납기·가격 데이터를 모아 거래 이력화',
-      ai: '현재 미적용 · 향후 정성 의견 요약을 보조',
-      human: '응대·회신 품질을 평가하고 최종 점수 확인',
-    },
+    tools: ['ERP 입고 기록', '공급사 평가표', '거래 이력 DB'],
+    outcome: '한 번의 거래를 다음 구매에 쓰는 공급사 데이터로 전환',
+    future: '현재 평가 자동 연동은 다음 개발 단계',
   },
 ]
 
@@ -224,40 +223,119 @@ function BrandLine({ section }) {
 }
 
 function TechIcon({ type }) {
-  const common = {
-    fill: 'none',
-    stroke: 'currentColor',
-    strokeWidth: 2.2,
-    strokeLinecap: 'round',
-    strokeLinejoin: 'round',
+  const icons = {
+    document: FileText,
+    webhook: RadioTower,
+    database: Database,
+    ai: Bot,
+    check: CircleCheck,
+    human: UserRound,
+    filter: ListFilter,
+    branch: GitBranch,
+    rule: SlidersHorizontal,
+    search: Search,
+    contact: ContactRound,
+    mail: Mail,
+    clock: Clock3,
+    ranking: ChartNoAxesColumnIncreasing,
+    receipt: ReceiptText,
+    score: BadgeCheck,
+    frontend: Monitor,
+    api: Braces,
+    graph: Workflow,
+    erp: Boxes,
+    intelligence: Lightbulb,
+    state: HardDrive,
   }
+  const Icon = icons[type] || Workflow
 
-  const paths = {
-    document: <><path d="M14 7h14l7 7v27H14z" /><path d="M28 7v8h7M20 23h9M20 29h9M20 35h6" /></>,
-    webhook: <><circle cx="13" cy="24" r="5" /><circle cx="34" cy="13" r="5" /><circle cx="35" cy="35" r="5" /><path d="M18 22l11-6M18 27l12 6" /></>,
-    database: <><ellipse cx="24" cy="10" rx="14" ry="6" /><path d="M10 10v10c0 3 6 6 14 6s14-3 14-6V10M10 20v10c0 3 6 6 14 6s14-3 14-6V20M10 30v8c0 3 6 6 14 6s14-3 14-6v-8" /></>,
-    ai: <><path d="M16 14h16a7 7 0 017 7v13a7 7 0 01-7 7H16a7 7 0 01-7-7V21a7 7 0 017-7z" /><path d="M24 7v7M19 26h.1M29 26h.1M18 34h12M5 25h4M39 25h4" /></>,
-    check: <><circle cx="24" cy="24" r="17" /><path d="M16 24l6 6 11-13" /></>,
-    human: <><circle cx="24" cy="16" r="8" /><path d="M9 42c1-10 6-15 15-15s14 5 15 15" /></>,
-    filter: <><path d="M7 10h34L28 25v12l-8 4V25z" /><path d="M33 8v8M29 12h8" /></>,
-    branch: <><path d="M13 8v13c0 5 4 8 9 8h13" /><path d="M29 22l7 7-7 7M13 21V8M7 14l6-6 6 6" /></>,
-    rule: <><path d="M11 12h26M11 24h26M11 36h26" /><circle cx="18" cy="12" r="4" fill="currentColor" stroke="none" /><circle cx="31" cy="24" r="4" fill="currentColor" stroke="none" /><circle cx="22" cy="36" r="4" fill="currentColor" stroke="none" /></>,
-    search: <><circle cx="21" cy="21" r="12" /><path d="M30 30l10 10M16 21h10M21 16v10" /></>,
-    contact: <><circle cx="19" cy="17" r="7" /><path d="M7 37c1-8 5-12 12-12 5 0 8 2 10 6M33 13h9M33 20h9M34 28h7" /></>,
-    mail: <><rect x="7" y="11" width="34" height="27" rx="4" /><path d="M9 14l15 12 15-12" /></>,
-    clock: <><circle cx="24" cy="24" r="17" /><path d="M24 14v11l8 5" /></>,
-    ranking: <><path d="M10 39V27h7v12M21 39V18h7v21M32 39V9h7v30" /><path d="M8 42h33" /></>,
-    receipt: <><path d="M13 7h22v35l-5-4-6 4-6-4-5 4z" /><path d="M19 17h10M19 24h10M19 31h7" /></>,
-    score: <><path d="M24 7l5 10 11 2-8 8 2 12-10-6-10 6 2-12-8-8 11-2z" /><path d="M19 24l4 4 7-8" /></>,
-    frontend: <><rect x="5" y="8" width="38" height="29" rx="4" /><path d="M5 16h38M17 43h14M24 37v6" /></>,
-    api: <><path d="M16 9h16M16 39h16M9 16v16M39 16v16" /><circle cx="9" cy="9" r="4" /><circle cx="39" cy="9" r="4" /><circle cx="9" cy="39" r="4" /><circle cx="39" cy="39" r="4" /></>,
-    graph: <><circle cx="10" cy="24" r="5" /><circle cx="25" cy="10" r="5" /><circle cx="38" cy="24" r="5" /><circle cx="25" cy="39" r="5" /><path d="M14 20l7-7M29 13l6 7M35 28l-7 8M21 36l-7-8" /></>,
-    erp: <><path d="M8 16l16-9 16 9-16 9z" /><path d="M8 16v18l16 9 16-9V16M24 25v18" /></>,
-    intelligence: <><path d="M15 35c-5-3-7-8-7-13 0-9 7-15 16-15s16 6 16 15c0 5-2 10-7 13v6H15z" /><path d="M18 41h12M17 21h14M24 15v12" /></>,
-    state: <><ellipse cx="24" cy="12" rx="15" ry="6" /><path d="M9 12v12c0 3 7 6 15 6s15-3 15-6V12M9 24v12c0 3 7 6 15 6s15-3 15-6V24" /></>,
-  }
+  return <Icon className="tech-icon" strokeWidth={1.8} aria-hidden="true" />
+}
 
-  return <svg className="tech-icon" viewBox="0 0 48 48" aria-hidden="true" {...common}>{paths[type] || paths.graph}</svg>
+function TableOfContentsSlide({ active }) {
+  const sections = [
+    {
+      number: '01',
+      title: '문제 파악 & 시장 조사',
+      description: '구매 업무의 반복과 판단 편차를 살펴보고, 기존 시스템이 채우지 못한 시장의 공백을 확인합니다.',
+      topics: ['현업의 반복', '시장 공백', '도입 대상'],
+    },
+    {
+      number: '02',
+      title: '아키텍처 & 사용 기술',
+      description: 'ERP 위에 자동화 계층을 연결하고, 다섯 단계의 구매 업무가 실제로 어떻게 처리되는지 설명합니다.',
+      topics: ['시스템 구조', '5단계 자동화', '사람의 결정'],
+    },
+  ]
+
+  return (
+    <section className={`slide wide-slide toc-slide ${active ? 'active' : ''}`} aria-label="목차">
+      <section className="wide-content toc-content">
+        <BrandLine section="CONTENTS · 00" />
+        <div className="toc-layout">
+          <div className="toc-intro">
+            <p className="toc-kicker">PRESENTATION MAP</p>
+            <h1>오늘은 두 가지를<br />말씀드립니다.</h1>
+            <p>
+              현업에서 발견한 문제부터,<br />이를 자동화한 구조와 기술까지<br />한 흐름으로 보여드립니다.
+            </p>
+          </div>
+          <ol className="toc-list">
+            {sections.map((section, index) => (
+              <li key={section.number} style={{ '--toc-order': index }}>
+                <span className="toc-number">{section.number}</span>
+                <div className="toc-copy">
+                  <h2>{section.title}</h2>
+                  <p>{section.description}</p>
+                  <div className="toc-topics">
+                    {section.topics.map((topic) => <span key={topic}>{topic}</span>)}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+      <footer className="wide-footer">
+        <span>문제에서 출발해, 실제로 작동하는 해결 구조까지 이어갑니다.</span>
+        <span className="page">02 / CONTENTS</span>
+      </footer>
+    </section>
+  )
+}
+
+function SectionDividerSlide({ active, number, title, description, topics, page }) {
+  return (
+    <section className={`slide section-divider-slide ${active ? 'active' : ''}`} aria-label={`${number} ${title}`}>
+      <header className="section-divider-header">
+        <div className="section-divider-brand">
+          <div className="section-divider-logo"><SailboatIcon /></div>
+          <strong>BiddingFlow</strong>
+        </div>
+        <span>SECTION {number}</span>
+      </header>
+
+      <div className="section-divider-body">
+        <div className="section-divider-number" aria-hidden="true">{number}</div>
+        <div className="section-divider-copy">
+          <p>CHAPTER {number}</p>
+          <h1>{title}</h1>
+          <div className="section-divider-rule" />
+          <h2>{description}</h2>
+          <div className="section-divider-topics">
+            {topics.map((topic, index) => (
+              <span key={topic}><b>{String(index + 1).padStart(2, '0')}</b>{topic}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <footer className="section-divider-footer">
+        <span>구매는 물 흐르듯, 결정은 신중하게.</span>
+        <span>{String(page).padStart(2, '0')} / SECTION {number}</span>
+      </footer>
+    </section>
+  )
 }
 
 function TechTracker({ activeStep }) {
@@ -329,7 +407,7 @@ function ArchitectureSlide({ active }) {
       </section>
       <footer className="wide-footer">
         <span>ERP 데이터와 AI 판단을 분리하고, FastAPI가 사용자 경험과 업무 시스템을 연결합니다.</span>
-        <span className="page">08 / ARCHITECTURE</span>
+        <span className="page">10 / ARCHITECTURE</span>
       </footer>
     </section>
   )
@@ -339,18 +417,18 @@ function TechStepSlide({ active, config, page }) {
   return (
     <section className={`slide wide-slide tech-step-slide ${active ? 'active' : ''}`} aria-label={`${config.step}단계 ${TECH_STEP_TITLES[config.step - 1]}`}>
       <section className="wide-content">
-        <BrandLine section={`TECHNICAL FLOW · ${String(config.step).padStart(2, '0')}`} />
+        <BrandLine section={`구매 자동화 · ${String(config.step).padStart(2, '0')}`} />
         <TechTracker activeStep={config.step} />
 
         <div className="tech-step-heading">
-          <p className="tech-eyebrow">STEP {String(config.step).padStart(2, '0')} · {config.eyebrow}</p>
+          <p className="tech-eyebrow">{config.step}단계 · {TECH_STEP_TITLES[config.step - 1]}</p>
           <h1>{config.title}</h1>
           <p>{config.summary}</p>
         </div>
 
         <div className="tech-main-grid">
           <article className="tech-need-card">
-            <span>NEED</span>
+            <span>현재 문제</span>
             <h2>{config.need.title}</h2>
             <p>{config.need.body}</p>
             <strong>{config.need.impact}</strong>
@@ -359,8 +437,8 @@ function TechStepSlide({ active, config, page }) {
 
           <article className="tech-flow-card">
             <div className="tech-card-label">
-              <span>SOLUTION FLOW</span>
-              <b>{config.flow.length}개 처리 지점</b>
+              <span>처리 흐름</span>
+              <b>{config.flow.length}단계</b>
             </div>
             <div className={`tech-flow tech-flow-${config.flow.length}`}>
               {config.flow.map((node, index) => (
@@ -374,7 +452,7 @@ function TechStepSlide({ active, config, page }) {
               ))}
             </div>
             <div className="tech-inline-stack">
-              <span>CONNECTED</span>
+              <span>연결 기술</span>
               {config.tools.map((tool) => <b key={tool}>{tool}</b>)}
             </div>
           </article>
@@ -382,20 +460,20 @@ function TechStepSlide({ active, config, page }) {
 
         <div className="tech-detail-grid">
           <article className="tech-principle">
-            <span>DESIGN PRINCIPLE</span>
+            <span>설계 원칙</span>
             <strong>{config.principle.title}</strong>
             <p>{config.principle.body}</p>
           </article>
           <article className="tech-result">
-            <span>OUTCOME</span>
+            <span>기대 효과</span>
             <strong>{config.outcome}</strong>
-            {config.future && <p><b>다음 단계</b>{config.future}</p>}
+            {config.future && <p><b>향후</b>{config.future}</p>}
           </article>
         </div>
       </section>
       <footer className="wide-footer">
-        <span>기술은 개별 기능이 아니라, 단계의 병목을 제거하는 순서로 배치했습니다.</span>
-        <span className="page">{String(page).padStart(2, '0')} / STEP {String(config.step).padStart(2, '0')}</span>
+        <span>반복 업무는 자동화하고, 책임 있는 결정은 사람에게 남겼습니다.</span>
+        <span className="page">{String(page).padStart(2, '0')} / {config.step}단계</span>
       </footer>
     </section>
   )
@@ -520,7 +598,7 @@ function ProcessSlide({ active }) {
 
       <footer className="footer">
         <div className="footer-source">현업 구매 담당자 인터뷰 및 ERPNext 구매 프로세스 분석</div>
-        <div className="page">02 / PROBLEM</div>
+        <div className="page">04 / PROBLEM</div>
       </footer>
     </section>
   )
@@ -611,7 +689,7 @@ function MarketGapSlide({ active }) {
           중소벤처기업부 스마트공장 보급 자료 · 중소벤처기업연구원 ERP·AI 활용 조사 · 팀 시장조사
           자료
         </div>
-        <div className="page">03 / MARKET GAP</div>
+        <div className="page">05 / MARKET GAP</div>
       </footer>
     </section>
   )
@@ -714,12 +792,14 @@ function MarketSlide({ active }) {
           Chain Management Software (2026)
           <br />두 지표는 시장 범위가 다르므로 합산하지 않음
         </div>
-        <div className="page">04 / MARKET</div>
+        <div className="page">06 / MARKET</div>
       </footer>
     </section>
   )
 }
 
+// 현재 덱에서 제외된 슬라이드입니다. 되살리려면 아래 컴포넌트를 렌더 목록에 다시 넣으세요.
+// eslint-disable-next-line no-unused-vars
 function TargetSlide({ active }) {
   return (
     <section className={`slide ${active ? 'active' : ''}`} aria-label="국내 초기 목표 시장">
@@ -875,19 +955,35 @@ function App() {
         aria-live="polite"
       >
         <CoverSlide active={current === 0} />
-        <ProcessSlide active={current === 1} />
-        <MarketGapSlide active={current === 2} />
-        <MarketSlide active={current === 3} />
-        <TargetSlide active={current === 4} />
-        <WhyErpnextSlide active={current === 5} page="06 / WHY ERPNEXT" />
-        <PositioningSlide active={current === 6} page="07 / POSITIONING" />
-        <ArchitectureSlide active={current === 7} />
+        <TableOfContentsSlide active={current === 1} />
+        <SectionDividerSlide
+          active={current === 2}
+          number="01"
+          title="문제 파악 & 시장 조사"
+          description="구매 담당자가 반복하는 일과, 기존 시스템이 채우지 못한 공백을 확인합니다."
+          topics={['현업의 반복', '시장 공백', '도입 대상']}
+          page={3}
+        />
+        <ProcessSlide active={current === 3} />
+        <MarketGapSlide active={current === 4} />
+        <MarketSlide active={current === 5} />
+        <WhyErpnextSlide active={current === 6} page="07 / WHY ERPNEXT" />
+        <PositioningSlide active={current === 7} page="08 / POSITIONING" />
+        <SectionDividerSlide
+          active={current === 8}
+          number="02"
+          title="아키텍처 & 사용 기술"
+          description="ERP 위에 자동화 계층을 연결하고, 다섯 단계의 처리 흐름을 살펴봅니다."
+          topics={['시스템 구조', '5단계 자동화', '사람의 결정']}
+          page={9}
+        />
+        <ArchitectureSlide active={current === 9} />
         {TECH_SLIDES.map((config, index) => (
           <TechStepSlide
             key={config.step}
-            active={current === index + 8}
+            active={current === index + 10}
             config={config}
-            page={index + 9}
+            page={index + 11}
           />
         ))}
       </main>
