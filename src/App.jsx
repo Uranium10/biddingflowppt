@@ -28,7 +28,7 @@ import { PositioningSlide, WhyErpnextSlide } from './TechDecisionSlides.jsx'
 
 const SLIDE_WIDTH = 1600
 const SLIDE_HEIGHT = 900
-const SLIDE_COUNT = 15
+const SLIDE_COUNT = 14
 
 const PROCESS_STEPS = [
   {
@@ -407,7 +407,7 @@ function ArchitectureSlide({ active }) {
       </section>
       <footer className="wide-footer">
         <span>ERP 데이터와 AI 판단을 분리하고, FastAPI가 사용자 경험과 업무 시스템을 연결합니다.</span>
-        <span className="page">10 / ARCHITECTURE</span>
+        <span className="page">09 / ARCHITECTURE</span>
       </footer>
     </section>
   )
@@ -695,6 +695,8 @@ function MarketGapSlide({ active }) {
   )
 }
 
+// 현재 발표 흐름에서는 제외했지만, 시장 성장 근거가 필요할 때 다시 연결할 수 있도록 보존합니다.
+// eslint-disable-next-line no-unused-vars
 function MarketSlide({ active }) {
   return (
     <section className={`slide ${active ? 'active' : ''}`} aria-label="글로벌 시장 성장">
@@ -966,24 +968,23 @@ function App() {
         />
         <ProcessSlide active={current === 3} />
         <MarketGapSlide active={current === 4} />
-        <MarketSlide active={current === 5} />
-        <WhyErpnextSlide active={current === 6} page="07 / WHY ERPNEXT" />
-        <PositioningSlide active={current === 7} page="08 / POSITIONING" />
+        <WhyErpnextSlide active={current === 5} page="06 / WHY ERPNEXT" />
+        <PositioningSlide active={current === 6} page="07 / POSITIONING" />
         <SectionDividerSlide
-          active={current === 8}
+          active={current === 7}
           number="02"
           title="아키텍처 & 사용 기술"
           description="ERP 위에 자동화 계층을 연결하고, 다섯 단계의 처리 흐름을 살펴봅니다."
           topics={['시스템 구조', '5단계 자동화', '사람의 결정']}
-          page={9}
+          page={8}
         />
-        <ArchitectureSlide active={current === 9} />
+        <ArchitectureSlide active={current === 8} />
         {TECH_SLIDES.map((config, index) => (
           <TechStepSlide
             key={config.step}
-            active={current === index + 10}
+            active={current === index + 9}
             config={config}
-            page={index + 11}
+            page={index + 10}
           />
         ))}
       </main>
